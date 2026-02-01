@@ -1,0 +1,50 @@
+<!-- Example usage of banners in templates -->
+{% load banner_tags %}
+
+<!-- Header Banners -->
+{% get_banners 'header' as header_banners %}
+{% if header_banners %}
+<div class="banner-container" data-position="header">
+    {% for banner in header_banners %}
+    <a href="{{ banner.link }}" class="banner-item {% if forloop.first %}active{% endif %}" target="_blank"
+        rel="noopener">
+        <img src="{{ banner.image.url }}" alt="Banner" style="max-height: 300px; width: 100%;">
+    </a>
+    {% endfor %}
+</div>
+
+{% if header_banners|length > 1 %}
+<script>
+    (function () {
+        const container = document.querySelector('.banner-container[data-position="header"]');
+        const banners = container.querySelectorAll('.banner-item');
+        let currentIndex = 0;
+
+        if (banners.length > 1) {
+            setInterval(function () {
+                banners[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % banners.length;
+                banners[currentIndex].classList.add('active');
+            }, 5000); // 5 seconds
+        }
+    })();
+</script>
+
+<style>
+    .banner-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .banner-item {
+        display: none;
+        width: 100%;
+    }
+
+    .banner-item.active {
+        display: block;
+    }
+</style>
+{% endif %}
+{% endif %}

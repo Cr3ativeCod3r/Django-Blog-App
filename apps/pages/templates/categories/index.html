@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Kategorie - FCHM Blog{% endblock %}
+
+{% block content %}
+<section class="container mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold text-gray-900 mb-8">Kategorie</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for category in categories %}
+        <a href="{% url 'category_detail' category.slug %}"
+            class="group bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden">
+            {% if category.default_image %}
+            <div class="h-48 overflow-hidden">
+                <img src="{{ category.default_image.url }}" alt="{{ category.name }}"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+            </div>
+            {% else %}
+            <div class="h-48 bg-gradient-to-br from-blue-500 to-purple-600"></div>
+            {% endif %}
+
+            <div class="p-6">
+                <h2 class="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition">
+                    {{ category.name }}
+                </h2>
+            </div>
+        </a>
+        {% empty %}
+        <p class="col-span-full text-center text-gray-500 py-8">Brak kategorii</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

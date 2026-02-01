@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Ośrodków Neurologicznych - Choroby Mózgu</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <!-- Leaflet MarkerCluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'map/css/map.css' %}">
+</head>
+
+<body>
+    <div class="map-container">
+        <!-- Controls Panel -->
+        <div class="controls-panel">
+            <div class="controls-header">
+                <h1>Mapa Ośrodków Neurologicznych</h1>
+                <p>Znajdź specjalistyczny ośrodek w Twojej okolicy</p>
+            </div>
+
+            <div class="controls-content">
+                <!-- Search by center name -->
+                <div class="control-group">
+                    <label for="search-input">Szukaj ośrodka:</label>
+                    <input type="text" id="search-input" placeholder="Wpisz nazwę ośrodka..." autocomplete="off">
+                </div>
+
+                <!-- Filter by disease -->
+                <div class="control-group">
+                    <label for="disease-filter">Filtruj po chorobie:</label>
+                    <select id="disease-filter">
+                        <option value="">Wszystkie choroby</option>
+                        <option value="Alzheimer">Alzheimer</option>
+                        <option value="Parkinson">Parkinson</option>
+                        <option value="Migrena">Migrena</option>
+                        <option value="Udar mózgu">Udar mózgu</option>
+                        <option value="Stwardnienie rozsiane">Stwardnienie rozsiane</option>
+                        <option value="Padaczka">Padaczka</option>
+                    </select>
+                </div>
+
+                <!-- Results counter -->
+                <div class="results-info">
+                    <span id="results-count">Ładowanie...</span>
+                </div>
+
+                <!-- Reset filters button -->
+                <button id="reset-filters" class="btn-reset">Wyczyść filtry</button>
+            </div>
+        </div>
+
+        <!-- Map -->
+        <div id="map"></div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- Leaflet MarkerCluster JS -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'map/js/map.js' %}"></script>
+</body>
+
+</html>
+{% endblock %}

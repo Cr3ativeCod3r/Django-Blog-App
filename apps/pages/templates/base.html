@@ -1,0 +1,165 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}FCHM Blog{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="bg-gray-50">
+    <!-- Header/Navigation -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <a href="{% url 'home' %}" class="flex items-center">
+                    <img src="{% static 'logo.webp' %}" alt="FCHM Logo" class="h-24">
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="{% url 'about' %}" class="text-gray-700 hover:text-blue-600 transition">O nas</a>
+                    <a href="{% url 'mozg' %}" class="text-gray-700 hover:text-blue-600 transition">Mózg</a>
+
+                    <!-- Fundacja Dropdown -->
+                    <div class="relative group">
+                        <button class="text-gray-700 hover:text-blue-600 transition flex items-center">
+                            Fundacja
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div
+                            class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                            <a href="{% url 'statut' %}"
+                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition first:rounded-t-lg">Statut</a>
+                            <a href="{% url 'contact' %}"
+                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition last:rounded-b-lg">Kontakt</a>
+                        </div>
+                    </div>
+
+                    <!-- Kategorie Dropdown -->
+                    <div class="relative group">
+                        <a href="{% url 'category_list' %}"
+                            class="text-gray-700 hover:text-blue-600 transition flex items-center">
+                            Kategorie
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </a>
+                        <div
+                            class="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 max-h-96 overflow-y-auto">
+                            {% load pages_tags %}
+                            {% get_categories as categories %}
+                            {% for category in categories %}
+                            <a href="{% url 'category_detail' category.slug %}"
+                                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition {% if forloop.first %}rounded-t-lg{% endif %} {% if forloop.last %}rounded-b-lg{% endif %}">
+                                {{ category.name }}
+                            </a>
+                            {% empty %}
+                            <span class="block px-4 py-2 text-gray-500 text-sm">Brak kategorii</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <a href="{% url 'search' %}" class="text-gray-700 hover:text-blue-600 transition">Szukaj
+                        artykułów</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-button" class="md:hidden text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-2">
+                <a href="{% url 'home' %}" class="block text-gray-700 hover:text-blue-600 transition py-2">Strona
+                    główna</a>
+                <a href="{% url 'about' %}" class="block text-gray-700 hover:text-blue-600 transition py-2">O nas</a>
+                <a href="{% url 'mozg' %}" class="block text-gray-700 hover:text-blue-600 transition py-2">Mózg</a>
+
+                <!-- Mobile Fundacja -->
+                <div class="border-t border-gray-200 pt-2">
+                    <p class="text-gray-500 text-sm font-semibold px-2 mb-1">Fundacja</p>
+                    <a href="{% url 'statut' %}"
+                        class="block text-gray-700 hover:text-blue-600 transition py-2 pl-4">Statut</a>
+                    <a href="{% url 'contact' %}"
+                        class="block text-gray-700 hover:text-blue-600 transition py-2 pl-4">Kontakt</a>
+                </div>
+
+                <!-- Mobile Kategorie -->
+                <div class="border-t border-gray-200 pt-2">
+                    <a href="{% url 'category_list' %}"
+                        class="block text-gray-500 text-sm font-semibold px-2 mb-1">Kategorie (wszystkie)</a>
+                    {% load pages_tags %}
+                    {% get_categories as categories %}
+                    {% for category in categories %}
+                    <a href="{% url 'category_detail' category.slug %}"
+                        class="block text-gray-700 hover:text-blue-600 transition py-2 pl-4">{{ category.name }}</a>
+                    {% endfor %}
+                </div>
+
+                <a href="{% url 'search' %}"
+                    class="block text-gray-700 hover:text-blue-600 transition py-2 border-t border-gray-200 pt-2">Szukaj
+                    artykułów</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-4">FCHM</h3>
+                    <p class="text-gray-400">Forum Chemików Medycznych</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Linki</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'about' %}" class="text-gray-400 hover:text-white transition">O nas</a></li>
+                        <li><a href="{% url 'mozg' %}" class="text-gray-400 hover:text-white transition">Mózg</a></li>
+                        <li><a href="{% url 'statut' %}" class="text-gray-400 hover:text-white transition">Statut</a>
+                        </li>
+                        <li><a href="{% url 'contact' %}" class="text-gray-400 hover:text-white transition">Kontakt</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Kontakt</h3>
+                    <p class="text-gray-400">Email: kontakt@fchm.pl</p>
+                    <p class="text-gray-400 mt-2">Uniwersytet Medyczny</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2026 FCHM. Wszelkie prawa zastrzeżone.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile menu toggle script -->
+    <script>
+        document.getElementById('mobile-menu-button').addEventListener('click', function () {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

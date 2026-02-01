@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }} - FCHM Blog{% endblock %}
+
+{% block content %}
+<article class="bg-white">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+        <!-- Category Badge -->
+        <div class="mb-4">
+            <span class="inline-block px-4 py-2 text-sm font-semibold text-blue-600 bg-blue-100 rounded-full">
+                Fundacja chorób mózgu - {{ post.category.name }}
+            </span>
+        </div>
+
+
+
+        <!-- Title -->
+        <h1 class="text-xl md:text-2xl font-bold text-gray-900 mb-6">{{ post.title }}</h1>
+
+        <!-- Meta Info -->
+        <div class="flex items-start text-gray-600 mb-8 pb-8 border-b border-gray-200">
+            <!-- Avatar -->
+            <img src="{% static 'avatar.webp' %}" alt="Avatar" class="lg:h-32 sm: h-20  rounded-full mr-4">
+
+            <!-- Info + Tags -->
+            <div class="flex flex-col">
+                <span class="font-medium text-gray-900">
+                    {{ post.author.username }}
+                </span>
+                <span class="text-sm mb-2">
+                    {{ post.created_at|date:"j F Y" }}
+                </span>
+
+                <!-- Tags -->
+                {% if post.tags.all %}
+                <div class="flex flex-wrap gap-2 mt-1">
+                    {% for tag in post.tags.all %}
+                    <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs hover:bg-gray-200 transition">
+                        #{{ tag.name }}
+                    </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+
+
+        <!-- Hero Media -->
+        {% if post.hero_youtube_url %}
+        <div class="mb-12 aspect-video rounded-lg overflow-hidden shadow-lg">
+            {% if 'youtu.be/' in post.hero_youtube_url or 'youtube.com/' in post.hero_youtube_url %}
+            {% with video_id=post.hero_youtube_url|slice:'-11:' %}
+            <iframe src="https://www.youtube.com/embed/{{ video_id }}" class="w-full h-full" allowfullscreen></iframe>
+            {% endwith %}
+            {% endif %}
+        </div>
+        {% elif post.hero_image %}
+        <div class="mb-12 rounded-lg overflow-hidden shadow-lg">
+            <img src="{{ post.hero_image.url }}" alt="{{ post.title }}" class="w-full h-auto">
+        </div>
+        {% elif post.category.default_image %}
+        <div class="mb-12 rounded-lg overflow-hidden shadow-lg">
+            <img src="{{ post.category.default_image.url }}" alt="{{ post.title }}" class="w-full h-auto">
+        </div>
+        {% endif %}
+
+        <!-- Content -->
+        <div class="prose prose-lg max-w-none mb-12">
+            {{ post.content|safe }}
+        </div>
+
+
+        <!-- Gallery -->
+        {% if post.gallery_images.all %}
+        <div class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Galeria</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {% for image in post.gallery_images.all %}
+                <div class="group relative cursor-pointer rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow"
+                    onclick="openLightbox({{ forloop.counter0 }})">
+                    <img src="{{ image.image.url }}" alt="{{ image.caption|default:post.title }}"
+                        class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                    {% if image.caption %}
+                    <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-sm">
+                        {{ image.caption }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Lightbox Modal -->
+        <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-90 hidden items-center justify-center z-50"
+            onclick="closeLightbox()">
+            <button class="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 transition"
+                onclick="closeLightbox()">&times;</button>
+            <button class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gray-300 transition"
+                onclick="event.stopPropagation(); changeImage(-1)">&#10094;</button>
+            <button class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gray-300 transition"
+                onclick="event.stopPropagation(); changeImage(1)">&#10095;</button>
+            <div class="max-w-5xl max-h-screen p-4" onclick="event.stopPropagation()">
+                <img id="lightbox-image" src="" alt="" class="max-w-full max-h-screen object-contain">
+                <div id="lightbox-caption" class="text-white text-center mt-4 text-lg"></div>
+            </div>
+        </div>
+
+
+        {% endif %}
+    </div>
+    <script src="{% static 'gallery.js' %}"></script>
+</article>
+{% endblock %}

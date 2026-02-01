@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} - FCHM Blog{% endblock %}
+
+{% block content %}
+<!-- Category Header -->
+<section class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-12">
+    <div class="container mx-auto px-4">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">{{ category.name }}</h1>
+        <p class="text-xl">Przeglądaj artykuły z tej kategorii</p>
+    </div>
+</section>
+
+<!-- Posts Grid -->
+<section class="container mx-auto px-4 py-12">
+    {% if posts %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {% for post in posts %}
+        <a href="{% url 'post_detail' post.category.slug post.slug %}"
+            class="group bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden">
+            <div class="aspect-video overflow-hidden">
+                {% if post.hero_image %}
+                <img src="{{ post.hero_image.url }}" alt="{{ post.title }}" loading="lazy"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                {% elif post.category.default_image %}
+                <img src="{{ post.category.default_image.url }}" alt="{{ post.title }}" loading="lazy"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                {% else %}
+                <div class="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600"></div>
+                {% endif %}
+            </div>
+            <div class="p-4">
+                <h3 class="text-lg font-bold text-gray-900 group-hover:text-blue-600 transition line-clamp-2 mb-2">
+                    {{ post.title }}
+                </h3>
+                <p class="text-sm text-gray-600 line-clamp-2 mb-3">{{ post.excerpt }}</p>
+                <div class="flex items-center text-xs text-gray-500">
+                    <span>{{ post.author.username }}</span>
+                    <span class="mx-2">•</span>
+                    <span>{{ post.created_at|date:"j M Y" }}</span>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <div class="mt-12 flex justify-center items-center space-x-2">
+        {% if page_obj.has_previous %}
+        <a href="?page=1" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+            Pierwsza
+        </a>
+        <a href="?page={{ page_obj.previous_page_number }}"
+            class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+            Poprzednia
+        </a>
+        {% endif %}
+
+        <span class="px-4 py-2 bg-blue-600 text-white rounded-lg">
+            Strona {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}"
+            class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+            Następna
+        </a>
+        <a href="?page={{ page_obj.paginator.num_pages }}"
+            class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+            Ostatnia
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <p class="text-center text-gray-500 py-12">Brak postów w tej kategorii</p>
+    {% endif %}
+</section>
+{% endblock %}

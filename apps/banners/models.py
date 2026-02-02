@@ -1,4 +1,5 @@
 from django.db import models
+from .managers import BannerManager
 
 
 class Banner(models.Model):
@@ -34,6 +35,8 @@ class Banner(models.Model):
         help_text="Display order (lower numbers appear first)"
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    objects = BannerManager()
     
     class Meta:
         verbose_name = "Banner"

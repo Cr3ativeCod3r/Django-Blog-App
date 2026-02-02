@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from ckeditor.fields import RichTextField
+from .managers import CategoryManager, TagManager, PostManager, GalleryImageManager
 
 
 class Category(models.Model):
@@ -9,6 +10,8 @@ class Category(models.Model):
     name = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True, db_index=True)
     default_image = models.ImageField(upload_to='categories/', null=True, blank=True)
+    
+    objects = CategoryManager()
     
     class Meta:
         verbose_name = "Kategoria"
@@ -28,6 +31,8 @@ class Tag(models.Model):
     """Thematic tag"""
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True, db_index=True)
+    
+    objects = TagManager()
     
     class Meta:
         verbose_name = "Tag"
@@ -65,6 +70,8 @@ class Post(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='posts')
     author = models.ForeignKey(User, on_delete=models.PROTECT, related_name='posts')
     tags = models.ManyToManyField(Tag, related_name='posts', blank=True)
+    
+    objects = PostManager()
     
     class Meta:
         verbose_name = "Post"
@@ -126,6 +133,8 @@ class GalleryImage(models.Model):
     caption = models.CharField(max_length=200, blank=True, help_text="Optional image caption")
     position = models.PositiveIntegerField(default=0, help_text="Display order")
     uploaded_at = models.DateTimeField(auto_now_add=True)
+    
+    objects = GalleryImageManager()
     
     class Meta:
         verbose_name = "Zdjęcie galerii"

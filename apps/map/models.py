@@ -1,4 +1,5 @@
 from django.db import models
+from .managers import MedicalCenterManager
 
 
 class MedicalCenter(models.Model):
@@ -30,6 +31,8 @@ class MedicalCenter(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    objects = MedicalCenterManager()
     
     class Meta:
         verbose_name = "Ośrodek Medyczny"

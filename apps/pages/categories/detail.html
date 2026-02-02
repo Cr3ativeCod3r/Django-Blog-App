@@ -14,7 +14,7 @@
 <!-- Posts Grid -->
 <section class="container mx-auto px-4 py-12">
     {% if posts %}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
         {% for post in posts %}
         <a href="{% url 'post_detail' post.category.slug post.slug %}"
             class="group bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden">

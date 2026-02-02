@@ -28,9 +28,7 @@ services:
     restart: unless-stopped
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      # Mount entire project for live code changes
       - .:/app
-      # Prevent overwriting Python packages
       - /app/venv
     ports:
       - "8000:8000"

@@ -18,6 +18,7 @@ class MapView(TemplateView):
 class LocationsAPIView(generics.ListAPIView):
     """API endpoint returning all medical centers with optional filtering"""
     serializer_class = MedicalCenterSerializer
+    pagination_class = None  # Disable pagination to return all results
     
     def get_queryset(self):
         queryset = MedicalCenter.objects.all()

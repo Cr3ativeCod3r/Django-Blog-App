@@ -36,7 +36,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     def posts(self, request, slug=None):
         """Returns posts from given category"""
         category = self.get_object()
-        posts = category.posts.filter(published=True).order_by('-created_at')
+        posts = Post.objects.published().by_category(category.slug).with_relations()
         serializer = PostListSerializer(posts, many=True, context={'request': request})
         return Response(serializer.data)
 
@@ -56,7 +56,7 @@ class TagViewSet(viewsets.ModelViewSet):
     def posts(self, request, slug=None):
         """Returns posts with given tag"""
         tag = self.get_object()
-        posts = tag.posts.filter(published=True).order_by('-created_at')
+        posts = Post.objects.published().by_tag(tag.slug).with_relations()
         serializer = PostListSerializer(posts, many=True, context={'request': request})
         return Response(serializer.data)
 
@@ -81,10 +81,10 @@ class PostViewSet(viewsets.ModelViewSet):
         Admin sees all posts
         Anonymous/regular users see only published posts
         """
-        queryset = Post.objects.select_related('category', 'author').prefetch_related('tags')
+        queryset = Post.objects.with_relations()
         
         if not self.request.user.is_staff:
-            queryset = queryset.filter(published=True)
+            queryset = queryset.published()
         
         return queryset
     
@@ -102,7 +102,7 @@ class PostViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def published(self, request):
         """Returns only published posts"""
-        posts = self.get_queryset().filter(published=True)
+        posts = self.get_queryset().published()
         page = self.paginate_queryset(posts)
         
         if page is not None:
@@ -124,9 +124,7 @@ class PostDetailView(DetailView):
     
     def get_object(self):
         return get_object_or_404(
-            Post.objects.filter(published=True).select_related(
-                'category', 'author'
-            ).prefetch_related('tags', 'gallery_images'),
+            Post.objects.published().with_relations().prefetch_related('gallery_images'),
             category__slug=self.kwargs['category_slug'],
             slug=self.kwargs['post_slug']
         )

@@ -1,0 +1,33 @@
+{% if post %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ post.title }}",
+  "description": "{{ post.get_meta_description }}",
+  "image": {% if post.get_meta_image %}"https://fchm.pl{{ post.get_meta_image }}"{% else %}null{% endif %},
+  "author": {
+    "@type": "Person",
+    "name": "{{ post.author.get_full_name|default:post.author.username }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://fchm.pl/#organization",
+    "name": "Fundacja Chorób Mózgu",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://fchm.pl/static/images/logo.png"
+    }
+  },
+  "datePublished": "{{ post.created_at|date:'c' }}",
+  "dateModified": "{{ post.created_at|date:'c' }}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ post.get_absolute_url }}"
+  },
+  "articleSection": "{{ post.category.name }}",
+  "keywords": "{{ post.meta_keywords|default:'' }}{% for tag in post.tags.all %}{% if forloop.first and not post.meta_keywords %},{% elif not forloop.first %},{% endif %}{{ tag.name }}{% endfor %}",
+  "inLanguage": "pl-PL"
+}
+</script>
+{% endif %}

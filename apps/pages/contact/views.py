@@ -49,3 +49,34 @@ class ContactView(TemplateView):
             print(f"Email error: {e}")  # Log the error for debugging
         
         return redirect('contact')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # SEO Context
+        meta_title = 'Kontakt - Fundacja Chorób Mózgu'
+        meta_description = 'Skontaktuj się z Fundacją Chorób Mózgu. Znajdź naszą siedzibę, dane kontaktowe oraz formularz kontaktowy.'
+        meta_keywords = 'kontakt, Fundacja Chorób Mózgu, dane kontaktowe, formularz kontaktowy, siedziba, adres, telefon, email'
+        canonical_url = self.request.build_absolute_uri()
+        
+        context.update({
+            # Basic Meta
+            'meta_title': meta_title,
+            'meta_description': meta_description,
+            'meta_keywords': meta_keywords,
+            'canonical_url': canonical_url,
+            
+            # Open Graph
+            'og_type': 'website',
+            'og_title': meta_title,
+            'og_description': meta_description,
+            'og_url': canonical_url,
+            'og_image': '/static/images/og-default.jpg',
+            
+            # Twitter Card
+            'twitter_title': meta_title,
+            'twitter_description': meta_description,
+            'twitter_image': '/static/images/og-default.jpg',
+        })
+        
+        return context

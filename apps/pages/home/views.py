@@ -37,4 +37,27 @@ class HomeView(TemplateView):
         context['banner_2'] = Banner.objects.filter(position='home_banner_2', is_active=True).first()
         context['banner_3'] = Banner.objects.filter(position='home_banner_3', is_active=True).first()
         
+        # SEO Context
+        meta_title = 'Fundacja Chorób Mózgu - Aktualności i Artykuły'
+        meta_description = 'Fundacja Chorób Mózgu - najnowsze aktualności, artykuły i informacje o chorobach neurologicznych. Wspieramy edukację i świadomość zdrowotną.'
+        
+        context.update({
+            # Basic Meta
+            'meta_title': meta_title,
+            'meta_description': meta_description,
+            'canonical_url': 'https://chorobymozgu.pl/',
+            'meta_keywords': 'fundacja chorób mózgu, choroby neurologiczne, zdrowie, edukacja zdrowotna',
+            
+            # Open Graph
+            'og_type': 'website',
+            'og_title': meta_title,
+            'og_description': meta_description,
+            'og_url': 'https://chorobymozgu.pl/',
+            'og_image': '/static/images/og-default.jpg',
+            
+            # Twitter Card
+            'twitter_title': meta_title,
+            'twitter_description': meta_description,
+        })
+        
         return context

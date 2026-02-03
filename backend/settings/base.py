@@ -22,6 +22,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',  # Required for sitemaps
+    'django.contrib.sitemaps',  # Sitemap generation
     
     # Third-party apps
     'rest_framework',
@@ -29,6 +31,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'django_filters',
+    'meta',  # Meta tags & Open Graph
+    'robots',  # Robots.txt management
     
     # Local apps
     'apps.posts',
@@ -162,3 +166,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Map API Configuration
 MAP_API_KEY = os.environ.get('MAP_API_KEY', None)
+
+# SEO Configuration
+SITE_ID = 1  # Required for django.contrib.sites and sitemaps
+
+# Default Meta Tags
+META_SITE_PROTOCOL = 'https'  # Change to 'http' for local development
+META_SITE_DOMAIN = 'fchm.pl'  # Change to your actual domain
+META_SITE_TYPE = 'website'
+META_SITE_NAME = 'Fundacja Chorób Mózgu'
+META_USE_OG_PROPERTIES = True
+META_USE_TWITTER_PROPERTIES = True
+META_USE_TITLE_TAG = True
+META_OG_NAMESPACES = ['og', 'fb']
+
+# Default social media image
+META_DEFAULT_IMAGE = '/static/images/fchm-social.jpg'  # Add default social image
+META_DEFAULT_DESCRIPTION = 'Fundacja Chorób Mózgu - aktualności, artykuły i informacje o chorobach neurologicznych.'

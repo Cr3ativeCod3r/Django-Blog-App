@@ -1,0 +1,50 @@
+<!-- <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://fchm.pl/#organization",
+      "name": "Fundacja Chorób Mózgu",
+      "alternateName": "FCHM",
+      "url": "https://fchm.pl",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://fchm.pl/static/images/logo.png"
+      },
+      "sameAs": [
+        "https://www.facebook.com/fundacjachorobmozgu",
+        "https://www.youtube.com/@FundacjaCHM",
+        "https://www.linkedin.com/company/fundacja-chorób-mózgu"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://fchm.pl/#website",
+      "url": "https://fchm.pl",
+      "name": "Fundacja Chorób Mózgu",
+      "description": "Fundacja Chorób Mózgu - aktualności, artykuły i informacje o chorobach neurologicznych.",
+      "publisher": {
+        "@id": "https://fchm.pl/#organization"
+      },
+      "inLanguage": "pl-PL"
+    }
+    {% if breadcrumbs %}
+    ,{
+      "@type": "BreadcrumbList",
+      "@id": "https://fchm.pl{{ request.path }}#breadcrumb",
+      "itemListElement": [
+        {% for crumb in breadcrumbs %}
+        {
+          "@type": "ListItem",
+          "position": {{ forloop.counter }},
+          "name": "{{ crumb.name }}",
+          "item": "https://fchm.pl{{ crumb.url }}"
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      ]
+    }
+    {% endif %}
+  ]
+}
+</script> -->

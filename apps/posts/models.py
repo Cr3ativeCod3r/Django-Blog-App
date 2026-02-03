@@ -66,6 +66,24 @@ class Post(models.Model):
     # Content
     content = RichTextField()
     
+    # SEO fields
+    meta_description = models.TextField(
+        max_length=160,
+        blank=True,
+        help_text="SEO meta description (max 160 characters). If empty, excerpt will be used."
+    )
+    meta_keywords = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="SEO keywords, comma-separated (optional)"
+    )
+    og_image = models.ImageField(
+        upload_to='posts/og_images/',
+        null=True,
+        blank=True,
+        help_text="Custom Open Graph image. If empty, hero_image will be used."
+    )
+    
     # Relations
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='posts')
     author = models.ForeignKey(User, on_delete=models.PROTECT, related_name='posts')
@@ -106,6 +124,27 @@ class Post(models.Model):
     def get_url(self):
         """Post URL: /{category.slug}/{post.slug}"""
         return f"/{self.category.slug}/{self.slug}"
+    
+    def get_absolute_url(self):
+        """Full absolute URL for the post"""
+        return f"https://fchm.pl{self.get_url()}"  # Change domain as needed
+    
+    def get_meta_description(self):
+        """Returns meta_description or truncated excerpt"""
+        if self.meta_description:
+            return self.meta_description
+        # Truncate excerpt to 160 chars
+        return self.excerpt[:157] + '...' if len(self.excerpt) > 160 else self.excerpt
+    
+    def get_meta_image(self):
+        """Returns og_image URL or hero_image URL"""
+        if self.og_image:
+            return self.og_image.url
+        elif self.hero_image:
+            return self.hero_image.url
+        elif self.category and self.category.default_image:
+            return self.category.default_image.url
+        return None
     
     def __str__(self):
         return self.title

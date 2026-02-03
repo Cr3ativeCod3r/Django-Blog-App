@@ -9,11 +9,37 @@ import requests
 from .models import MedicalCenter
 from .serializers import MedicalCenterSerializer
 
-
 class MapView(TemplateView):
     """Main map view displaying all medical centers"""
     template_name = 'map/index.html'
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # SEO Context
+        meta_title = 'Mapa placówek medycznych - Fundacja Chorób Mózgu'
+        meta_description = 'Mapa placówek medycznych zajmujących się leczeniem chorób mózgu. Znajdź specjalistów i centra medyczne w całej Polsce.'
+        
+        context.update({
+            # Basic Meta
+            'meta_title': meta_title,
+            'meta_description': meta_description,
+            'meta_keywords': 'mapa placówek medycznych, choroby mózgu, neurologia, leczenie, szpitale',
+            'canonical_url': self.request.build_absolute_uri(),  # DODAJ TO
+            
+            # Open Graph
+            'og_type': 'website',
+            'og_title': meta_title,
+            'og_description': meta_description,
+            'og_url': self.request.build_absolute_uri(),
+            'og_image': '/static/images/og-default.jpg',
+            
+            # Twitter Card
+            'twitter_title': meta_title,
+            'twitter_description': meta_description,
+        })
+        
+        return context
 
 class LocationsAPIView(generics.ListAPIView):
     """API endpoint returning all medical centers with optional filtering"""

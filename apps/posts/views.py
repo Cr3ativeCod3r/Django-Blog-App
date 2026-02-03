@@ -128,3 +128,27 @@ class PostDetailView(DetailView):
             category__slug=self.kwargs['category_slug'],
             slug=self.kwargs['post_slug']
         )
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post = self.object
+        
+        # SEO Context
+        context['meta_title'] = f"{post.title} - Fundacja Chorób Mózgu"
+        context['meta_description'] = post.get_meta_description()
+        context['meta_keywords'] = post.meta_keywords
+        context['canonical_url'] = post.get_absolute_url()
+        context['og_type'] = 'article'
+        context['og_title'] = post.title
+        context['og_description'] = post.get_meta_description()
+        context['og_image'] = post.get_meta_image()
+        
+        # Breadcrumbs for structured data
+        context['breadcrumbs'] = [
+            {'name': 'Strona główna', 'url': '/'},
+            {'name': post.category.name, 'url': f'/kategorie/{post.category.slug}/'},
+            {'name': post.title, 'url': post.get_url()},
+        ]
+        
+        return context
+

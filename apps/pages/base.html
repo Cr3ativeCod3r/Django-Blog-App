@@ -3,11 +3,24 @@
 <html lang="pl">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}FCHM Blog{% endblock %}</title>
+    {% include 'components/seo_meta.html' %}
+
+    {# Preconnect for external resources #}
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    {# Tailwind CSS #}
     <script src="https://cdn.tailwindcss.com"></script>
+
+    {# Font Awesome #}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    {# Structured Data #}
+    {% include 'components/structured_data.html' %}
+
+    {# Article Schema (for post pages) #}
+    {% block article_schema %}{% endblock %}
+
     {% block extra_css %}{% endblock %}
 </head>
 

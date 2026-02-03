@@ -33,17 +33,21 @@ class PostAdmin(admin.ModelAdmin):
     autocomplete_fields = ['category', 'author', 'tags']
     
     fieldsets = (
-        ('Basic information', {
+        ('Podstawowe', {
             'fields': ('title', 'slug', 'category', 'author', 'published')
         }),
-        ('Listing and Hero section', {
-            'fields': ('hero_image', 'hero_youtube_url', 'excerpt'),
-            'description': 'hero_image used for both tile and hero section. Priority: YouTube URL > Hero Image > Category Default Image'
+        ('Media', {
+            'fields': ('hero_image', 'hero_youtube_url')
         }),
-        ('Content', {
-            'fields': ('content',)
+        ('Treść', {
+            'fields': ('excerpt', 'content')
         }),
-        ('Tags', {
+        ('SEO', {
+            'fields': ('meta_description', 'meta_keywords', 'og_image'),
+            'classes': ('collapse',),
+            'description': 'Opcjonalne ustawienia SEO. Jeśli puste, zostaną użyte wartości domyślne.'
+        }),
+        ('Tagi', {
             'fields': ('tags',),
             'classes': ('collapse',)
         }),

@@ -31,6 +31,13 @@ body {
     padding: 24px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-content {
+    flex: 1;
 }
 
 .controls-header h1 {
@@ -42,6 +49,26 @@ body {
 .controls-header p {
     font-size: 14px;
     opacity: 0.9;
+}
+
+.toggle-button {
+    display: none;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.toggle-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+    display: block;
 }
 
 .controls-content {
@@ -187,19 +214,91 @@ body {
     font-weight: 500;
 }
 
+.btn-navigate {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+    color: white !important;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-navigate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(66, 133, 244, 0.4);
+}
+
+.btn-navigate svg {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .map-container {
         flex-direction: column;
+        position: relative;
     }
     
     .controls-panel {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
         width: 100%;
-        max-height: 40vh;
+        max-height: 60vh;
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+        z-index: 999;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease;
+    }
+
+    .controls-panel.collapsed {
+        transform: translateY(calc(100% - 80px));
+    }
+
+    .controls-panel.collapsed .toggle-icon {
+        transform: rotate(180deg);
+    }
+    
+    .controls-header {
+        padding: 16px 24px;
+        border-radius: 16px 16px 0 0;
+        cursor: pointer;
+    }
+    
+    .toggle-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .controls-content {
+        overflow-y: auto;
+    }
+    
+    .controls-header h1 {
+        font-size: 20px;
+    }
+    
+    .controls-header p {
+        font-size: 13px;
     }
     
     #map {
-        height: 60vh;
+        height: 100vh;
+        width: 100vw;
     }
 }
 

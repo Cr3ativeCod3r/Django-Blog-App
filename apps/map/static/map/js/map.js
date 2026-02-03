@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initMap();
     fetchLocations();
     setupEventListeners();
+    setupMobileToggle();
 });
 
 // Initialize Leaflet map
@@ -92,6 +93,9 @@ function createPopupContent(location) {
         .map(disease => `<span class="disease-tag">${disease}</span>`)
         .join('');
 
+    // Create Google Maps navigation URL
+    const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${location.lat},${location.lng}`;
+
     return `
         <div class="popup-header">
             ${location.department}
@@ -111,6 +115,13 @@ function createPopupContent(location) {
                 <div class="popup-label">Telefon:</div>
                 <div class="popup-value">${location.phone.replace(/\n/g, '<br>')}</div>
             </div>
+            <a href="${googleMapsUrl}" target="_blank" rel="noopener noreferrer" class="btn-navigate">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                Nawiguj mnie
+            </a>
         </div>
     `;
 }
@@ -176,5 +187,31 @@ function updateResultsCount(text) {
     const resultsCount = document.getElementById('results-count');
     if (resultsCount) {
         resultsCount.textContent = text;
+    }
+}
+
+// Setup mobile filter toggle
+function setupMobileToggle() {
+    const toggleButton = document.getElementById('toggle-filters');
+    const controlsPanel = document.querySelector('.controls-panel');
+
+    if (toggleButton && controlsPanel) {
+        // Start collapsed on mobile
+        if (window.innerWidth <= 768) {
+            controlsPanel.classList.add('collapsed');
+        }
+
+        toggleButton.addEventListener('click', function (e) {
+            e.stopPropagation();
+            controlsPanel.classList.toggle('collapsed');
+        });
+
+        // Also allow clicking the header to toggle
+        const controlsHeader = document.querySelector('.controls-header');
+        controlsHeader.addEventListener('click', function (e) {
+            if (window.innerWidth <= 768 && e.target !== toggleButton) {
+                controlsPanel.classList.toggle('collapsed');
+            }
+        });
     }
 }

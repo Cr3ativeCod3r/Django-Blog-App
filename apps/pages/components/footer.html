@@ -1,0 +1,58 @@
+<!-- Green ownership bar -->
+<div class="bg-green-600 text-white py-2">
+    <div class="container mx-auto px-4 text-center">
+        <p class="text-sm">Strona należy do Fundacji Chorób Mózgu</p>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white">
+    <div class="container mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Left section: Logo and copyright -->
+            <div class="md:col-span-1">
+                <div class="mb-4">
+                    <h3 class="text-2xl font-bold">FCHM</h3>
+                </div>
+                <p class="text-gray-400 text-sm mb-4">© 2025 FCHM. Wszystkie prawa zastrzeżone</p>
+                <p class="text-gray-400 text-sm">
+                    Projekt oraz implementacja:
+                    <a href="https://www.linkedin.com/feed/" target="_blank" rel="noopener noreferrer"
+                        class="text-white hover:text-green-400 transition underline">
+                        KamilBanaszek
+                    </a>
+                </p>
+            </div>
+
+            <!-- Right section: 3 columns -->
+            <!-- Column 1: FCHM -->
+            <div>
+                <h4 class="text-lg font-bold mb-4">FCHM</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Znajdź lek</a></li>
+                    <li><a href="{% url 'map' %}" class="text-gray-400 hover:text-white transition">Mapa Ośrodków</a>
+                    </li>
+                    <li><a href="{% url 'home' %}" class="text-gray-400 hover:text-white transition">Aktualności</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Column 2: Links -->
+            <div>
+                <h4 class="text-lg font-bold mb-4 invisible">Links</h4>
+                <ul class="space-y-2">
+                    <li><a href="{% url 'about' %}" class="text-gray-400 hover:text-white transition">O nas</a></li>
+                    <li><a href="{% url 'contact' %}" class="text-gray-400 hover:text-white transition">Kontakt</a></li>
+                    <li><a href="{% url 'statut' %}" class="text-gray-400 hover:text-white transition">Statut</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Projekty</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Social media -->
+            <div>
+                <h4 class="text-lg font-bold mb-4">Śledź nas</h4>
+                {% include 'components/social_links.html' with icon_mode=False %}
+            </div>
+        </div>
+    </div>
+</footer>

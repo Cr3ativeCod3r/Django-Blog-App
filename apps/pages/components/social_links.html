@@ -1,0 +1,50 @@
+{% comment %}
+Reusable social media links component
+Usage: {% include 'components/social_links.html' with icon_mode=True|False %}
+- icon_mode=True: Renders as icon buttons (for navigation)
+- icon_mode=False: Renders as text links (for footer)
+{% endcomment %}
+
+{% if icon_mode %}
+{# Icon mode for navigation #}
+<div class="flex items-center space-x-2">
+    <a href="https://www.facebook.com/fundacjachorobmozgu" target="_blank" rel="noopener noreferrer"
+        class="text-gray-700 hover:text-blue-600 transition-colors duration-200" aria-label="Facebook">
+        <i class="fab fa-facebook text-2xl text-blue-600"></i>
+    </a>
+    <a href="https://www.youtube.com/@fundacjachorobmozgu/videos" target="_blank" rel="noopener noreferrer"
+        class="text-gray-700 hover:text-red-600 transition-colors duration-200" aria-label="YouTube">
+        <i class="fab fa-youtube text-2xl text-red-600"></i>
+    </a>
+    <a href="https://www.linkedin.com/company/fundacja-chor%C3%B3b-m%C3%B3zgu/posts/?feedView=all" target="_blank"
+        rel="noopener noreferrer" class="text-gray-700 hover:text-blue-700 transition-colors duration-200"
+        aria-label="LinkedIn">
+        <i class="fab fa-linkedin text-2xl text-blue-600"></i>
+    </a>
+</div>
+{% else %}
+{# Text mode for footer #}
+<ul class="space-y-2">
+    <li>
+        <a href="https://www.facebook.com/fundacjachorobmozgu" target="_blank" rel="noopener noreferrer"
+            class="text-gray-400 hover:text-white transition flex items-center gap-2">
+            <i class="fab fa-facebook text-lg"></i>
+            <span>Facebook</span>
+        </a>
+    </li>
+    <li>
+        <a href="https://www.youtube.com/@fundacjachorobmozgu/videos" target="_blank" rel="noopener noreferrer"
+            class="text-gray-400 hover:text-white transition flex items-center gap-2">
+            <i class="fab fa-youtube text-lg"></i>
+            <span>YouTube</span>
+        </a>
+    </li>
+    <li>
+        <a href="https://www.linkedin.com/company/fundacja-chor%C3%B3b-m%C3%B3zgu/posts/?feedView=all" target="_blank"
+            rel="noopener noreferrer" class="text-gray-400 hover:text-white transition flex items-center gap-2">
+            <i class="fab fa-linkedin text-lg"></i>
+            <span>LinkedIn</span>
+        </a>
+    </li>
+</ul>
+{% endif %}

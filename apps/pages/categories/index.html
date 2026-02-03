@@ -6,7 +6,7 @@
 <section class="container mx-auto px-4 py-12">
     <h1 class="text-4xl font-bold text-gray-900 mb-8">Kategorie</h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {% for category in categories %}
         <a href="{% url 'category_detail' category.slug %}"
             class="group bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden">

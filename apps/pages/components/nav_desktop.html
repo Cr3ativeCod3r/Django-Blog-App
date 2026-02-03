@@ -1,0 +1,76 @@
+{% load static %}
+{% load pages_tags %}
+
+<!-- Desktop Navigation -->
+<header class="bg-white shadow-sm sticky top-0 z-50">
+    <nav class="container mx-auto px-4">
+        <div class="flex items-center justify-between">
+            <a href="{% url 'home' %}" class="flex items-center">
+                <img src="{% static 'logo.webp' %}" alt="FCHM Logo" class="h-24">
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <div class="hidden md:flex space-x-6 items-center">
+                <!-- Śledź nas with social media icons -->
+            
+
+
+                <a href="{% url 'mapa' %}" class="text-gray-700 hover:text-blue-600 transition">Mapa</a>
+
+                <!-- Fundacja Dropdown -->
+                <div class="relative group">
+                    <a href="{% url 'foundation' %}"
+                        class="text-gray-700 hover:text-blue-600 transition flex items-center">
+                        Fundacja
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </a>
+                    <div
+                        class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                        <a href="{% url 'statut' %}"
+                            class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition first:rounded-t-lg">Statut</a>
+                        <a href="{% url 'contact' %}"
+                            class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Kontakt</a>
+                        <a href="{% url 'about' %}"
+                            class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition last:rounded-b-lg">O
+                            nas</a>
+                    </div>
+                </div>
+
+                <!-- Kategorie Dropdown -->
+                <div class="relative group">
+                    <a href="{% url 'category_list' %}"
+                        class="text-gray-700 hover:text-blue-600 transition flex items-center">
+                        Kategorie
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </a>
+                    <div
+                        class="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 max-h-96 overflow-y-auto">
+                        {% get_categories as categories %}
+                        {% for category in categories %}
+                        <a href="{% url 'category_detail' category.slug %}"
+                            class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition {% if forloop.first %}rounded-t-lg{% endif %} {% if forloop.last %}rounded-b-lg{% endif %}">
+                            {{ category.name }}
+                        </a>
+                        {% empty %}
+                        <span class="block px-4 py-2 text-gray-500 text-sm">Brak kategorii</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <a href="{% url 'search' %}" class="text-gray-700 hover:text-blue-600 transition">Szukaj
+                    artykułów</a>
+            </div>
+
+                <div class="flex flex-col items-center space-x-3 border-gray-300">
+                    <span class="text-gray-600 text-sm font-medium">Śledź nas:</span>
+                    {% include 'components/social_links.html' with icon_mode=True %}
+                </div>
+        </div>
+    </nav>
+</header>
